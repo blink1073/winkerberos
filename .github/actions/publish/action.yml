@@ -46,6 +46,7 @@ runs:
       with:
           product_name: winkerberos
           filenames: dist/*
+          version: ${{ inputs.version }}
           token: ${{ inputs.token }}
     - name: Show files
       shell: bash
