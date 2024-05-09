@@ -29,7 +29,7 @@ runs:
     id: app-token
     with:
       app-id: ${{ inputs.app_id }}
-      private-key: ${{ inputs.app_private_key }}
+      private-key: ${{ inputs.private_key }}
 
   - uses: actions/setup-python@v4
     with:
