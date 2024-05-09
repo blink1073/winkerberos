@@ -2,6 +2,9 @@
 name: Publish
 description: "Asset Publish Action"
 inputs:
+  version:
+    description: "The published version"
+    required: true
   garasign_username:
     description: "The garasign username"
     required: true
