@@ -24,14 +24,10 @@ jobs:
       id-token: write
       contents: write
     steps:
-      - uses: actions/create-github-app-token@v1
-        id: app-token
+      - uses: blink1073/drivers-github-tools/secure-checkout@secure-checkout
         with:
           app-id: ${{ vars.APP_ID }}
           private-key: ${{ secrets.APP_PRIVATE_KEY }}
-      - uses: actions/checkout@v4
-        with:
-          token: ${{ steps.app-token.outputs.token }}
       - uses: mongodb-labs/drivers-github-tools/setup@v2
         with:
           aws_role_arn: ${{ secrets.AWS_ROLE_ARN }}
@@ -62,14 +58,11 @@ jobs:
       contents: write
       security-events: write
     steps:
-      - uses: actions/create-github-app-token@v1
-        id: app-token
+      - uses: blink1073/drivers-github-tools/secure-checkout@secure-checkout
         with:
           app-id: ${{ vars.APP_ID }}
           private-key: ${{ secrets.APP_PRIVATE_KEY }}
-      - uses: actions/checkout@v4
-        with:
-          token: ${{ steps.app-token.outputs.token }}
+          ref: ${{ inputs.version }}
       - uses: mongodb-labs/drivers-github-tools/setup@v2
         with:
           aws_role_arn: ${{ secrets.AWS_ROLE_ARN }}
