@@ -55,6 +55,7 @@ jobs:
   static-scan:
     needs: [pre-publish]
     uses: ./.github/workflows/codeql.yml
+    if: inputs.dry_run == false
     with:
       ref: ${{ inputs.version }}
       dry_run: ${{ inputs.dry_run }}
