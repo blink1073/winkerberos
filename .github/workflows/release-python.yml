@@ -56,8 +56,7 @@ jobs:
     needs: [pre-publish]
     uses: ./.github/workflows/codeql.yml
     with:
-      ref: ${{ inputs.version }}
-      dry_run: ${{ inputs.dry_run }}
+      ref: ${{ inputs.dry_run && '' || inputs.version }}
 
   publish:
     needs: [build-dist, static-scan]
