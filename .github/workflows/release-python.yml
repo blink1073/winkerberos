@@ -58,7 +58,6 @@ jobs:
     if: inputs.dry_run == false
     with:
       ref: ${{ inputs.version }}
-      dry_run: ${{ inputs.dry_run }}
 
   publish:
     needs: [build-dist, static-scan]
