@@ -3,9 +3,6 @@ name: Release
 on:
   workflow_dispatch:
     inputs:
-      version:
-        description: "The new version to set"
-        required: true
       following_version:
         description: "The post (dev) version to set"
         required: false
@@ -26,7 +23,6 @@ env:
   # to 'false' when the input is set to 'false'.
   DRY_RUN: ${{ ! contains(inputs.dry_run, 'false') }}
   FOLLOWING_VERSION: ${{ inputs.following_version || '' }}
-  VERSION: ${{ inputs.version || '10.10.10.10' }}
 
 defaults:
   run:
@@ -53,10 +49,9 @@ jobs:
           aws_region_name: ${{ vars.AWS_REGION_NAME }}
           aws_secret_id: ${{ secrets.AWS_SECRET_ID }}
           artifactory_username: ${{ vars.ARTIFACTORY_USERNAME }}
-      - uses: mongodb-labs/drivers-github-tools/python/pre-publish@v2
+      - uses: blink1073/drivers-github-tools/python/pre-publish@PYTHON-5188
         id: pre-publish
         with:
-          version: ${{ env.VERSION }}
           version_bump_script: ./.github/scripts/bump-version.sh
           dry_run: ${{ env.DRY_RUN }}
 
@@ -91,9 +86,9 @@ jobs:
           repository-url: https://test.pypi.org/legacy/
           skip-existing: true
           attestations: ${{ env.DRY_RUN }}
-      - name: Publish package distributions to PyPI
-        if: startsWith(env.DRY_RUN, 'false')
-        uses: pypa/gh-action-pypi-publish@release/v1
+      # - name: Publish package distributions to PyPI
+      #   if: startsWith(env.DRY_RUN, 'false')
+      #   uses: pypa/gh-action-pypi-publish@release/v1
 
   post-publish:
     needs: [publish]
@@ -115,9 +110,8 @@ jobs:
           aws_region_name: ${{ vars.AWS_REGION_NAME }}
           aws_secret_id: ${{ secrets.AWS_SECRET_ID }}
           artifactory_username: ${{ vars.ARTIFACTORY_USERNAME }}
-      - uses: mongodb-labs/drivers-github-tools/python/post-publish@v2
+      - uses: blink1073/drivers-github-tools/python/post-publish@PYTHON-5188
         with:
-          version: ${{ env.VERSION }}
           version_bump_script: ./.github/scripts/bump-version.sh
           following_version: ${{ env.FOLLOWING_VERSION }}
           product_name: ${{ env.PRODUCT_NAME }}
